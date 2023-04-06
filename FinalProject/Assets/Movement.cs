@@ -10,10 +10,14 @@ public class Movement : MonoBehaviour
     private float moveHorizontal;
     private float moveVertical;
     private Vector2 movement;
+    Animator animator;
+    SpriteRenderer spriteRenderer;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
     }
 
@@ -23,6 +27,16 @@ public class Movement : MonoBehaviour
         moveHorizontal = Input.GetAxis("Horizontal");
         moveVertical = Input.GetAxis("Vertical");
         movement = new Vector2(moveHorizontal, moveVertical);
+
+        animator.SetBool(name:"isMoving", moveHorizontal != 0);
+
+        //set direction of sprite when walking
+        if(movement.x < 0) {
+        spriteRenderer.flipX = true;
+        } else if (movement.x > 0) {
+            spriteRenderer.flipX = false;
+        }
+
     }
 
     void FixedUpdate() 
